@@ -2,6 +2,7 @@ package gui;
 
 import controller.UserController;
 import model.User;
+import main.Main;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,6 +16,7 @@ public class LoginPage extends JFrame {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
+    UserController userController = new UserController();
 
     EmptyBorder border = new EmptyBorder(0, 10, 0, 0);
 
@@ -38,10 +40,15 @@ public class LoginPage extends JFrame {
 
     private void loginMethod() {
         if (Validations.validCredentials(usernameField.getText(), new String(passwordField.getPassword()))) {
-//
+            User user= userController.getUsersByName(usernameField.getText());
+            if(user.equals(new User()))
+                user=userController.getUsersByEmail(usernameField.getText());
+
+            Main.setCurrentUser(user);
+            new MyAccountPage();
             dispose();
         } else {
-            JOptionPane.showMessageDialog(null, "Credentiale incorecte");
+            JOptionPane.showMessageDialog(null, "Invalid credentials");
             usernameField.setText("");
             passwordField.setText("");
             usernameField.requestFocus();

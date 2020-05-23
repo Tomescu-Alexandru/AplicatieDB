@@ -29,5 +29,10 @@ public class UserController {
         return userDao.findByEmail(email);
     }
 
+    public boolean updateUsername(String newUsername, String username){return userDao.updateUserName(newUsername,username);}
+
+    public boolean updateEmail(String newEmail, String email){return  userDao.updateEmail(newEmail,email);}
+
+    public boolean updatePassword(String newPassword, String username){return  userDao.updatePassword(newPassword,username);}
 
 }

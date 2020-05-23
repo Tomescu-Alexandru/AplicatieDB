@@ -17,15 +17,20 @@ public class UserDao {
     PreparedStatement insertQuery;
     PreparedStatement selectQueryUserName;
     PreparedStatement selectQueryEmail;
+    PreparedStatement updateUserNameQuery;
+    PreparedStatement updateEmailQuery;
+    PreparedStatement updatePasswordQuery;
 
-    public UserDao(Connection connection)
-    {
+    public UserDao(Connection connection) {
         this.connection=connection;
 
         try {
             insertQuery = connection.prepareStatement("INSERT INTO users VALUES(null,?,?,?)");
             selectQueryUserName = connection.prepareStatement("SELECT * FROM users where username=?");
             selectQueryEmail = connection.prepareStatement("SELECT * FROM users where email=?");
+            updateUserNameQuery = connection.prepareStatement("UPDATE users SET username=? WHERE username=?");
+            updateEmailQuery = connection.prepareStatement("UPDATE users SET email=? WHERE email=?");
+            updatePasswordQuery = connection.prepareStatement("UPDATE users SET password=? WHERE username=?");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,4 +97,45 @@ public class UserDao {
 
         return false;
     }
+
+    public boolean updateUserName(String newUsername, String username) {
+        try {
+            updateUserNameQuery.setString(1,newUsername);
+            updateUserNameQuery.setString(2,username);
+
+            return updateUserNameQuery.executeUpdate()!=0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean updateEmail(String newEmail, String email){
+        try {
+            updateEmailQuery.setString(1,newEmail);
+            updateEmailQuery.setString(2,email);
+
+            return updateEmailQuery.executeUpdate()!=0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean updatePassword(String newPassword, String username){
+        try {
+            updatePasswordQuery.setString(1,newPassword);
+            updatePasswordQuery.setString(2,username);
+
+            return updatePasswordQuery.executeUpdate()!=0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 }

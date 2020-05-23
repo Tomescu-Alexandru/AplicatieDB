@@ -33,9 +33,6 @@ public class RegisterPage extends JFrame{
         add(panel);
         setVisible(true);
 
-
-
-
     }
 
 
